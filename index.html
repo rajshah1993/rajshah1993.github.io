@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajkumar Shah | Embedded Controls Engineering Lab</title>
+    <style>
+        :root {
+            --primary-color: #007acc;
+            --text-dark: #222222;
+            --text-light: #555555;
+            --bg-accent: #f4f9ff;
+            --border-color: #e1e8ed;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            line-height: 1.7; 
+            color: var(--text-dark); 
+            max-width: 760px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+            background-color: #fdfdfd; 
+        }
+        
+        header { 
+            border-bottom: 2px solid var(--primary-color); 
+            padding-bottom: 25px; 
+            margin-bottom: 45px; 
+        }
+        
+        h1 { 
+            font-size: 2.4em;
+            color: #111111; 
+            margin-bottom: 5px; 
+            font-weight: 800;
+        }
+        
+        .subtitle { 
+            color: var(--text-light); 
+            font-size: 1.15em; 
+            margin-top: 0; 
+            font-weight: 400;
+        }
+        
+        .nav-links a { 
+            color: var(--primary-color); 
+            text-decoration: none; 
+            margin-right: 20px; 
+            font-weight: 600; 
+            font-size: 0.95em;
+        }
+        
+        .nav-links a:hover { 
+            text-decoration: underline; 
+        }
+        
+        .post { 
+            background: #ffffff; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
+            border: 1px solid var(--border-color); 
+        }
+        
+        .tag { 
+            background: #e1f0ff; 
+            color: var(--primary-color); 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-size: 0.8em; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        h2 {
+            font-size: 1.9em;
+            margin-top: 15px;
+            line-height: 1.3;
+        }
+        
+        .post-meta { 
+            color: #888888; 
+            font-size: 0.9em; 
+            margin-bottom: 30px;
+        }
+        
+        h3 {
+            font-size: 1.35em;
+            color: #111111;
+            margin-top: 35px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        blockquote { 
+            border-left: 4px solid var(--primary-color); 
+            background: var(--bg-accent); 
+            margin: 25px 0; 
+            padding: 15px 25px; 
+            font-style: italic; 
+            font-size: 1.1em;
+            color: #00528c;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Rajkumar Shah</h1>
+        <p class="subtitle">Senior Embedded Software & Controls Systems Engineer</p>
+        <div class="nav-links">
+            <a href="#">🏠 Home/Blog</a>
+            <a href="https://linkedin.com" target="_blank">👔 LinkedIn</a>
+        </div>
+    </header>
+
+    <main>
+        <article class="post">
+            <span class="tag">Control Theory Basics</span>
+            <h2>The Exploding Clipboard: A Lighthearted Guide to Integral Windup</h2>
+            <p class="post-meta">Published November 2026 • 3 min read</p>
+            
+            <p>If you work in controls or embedded systems, you know that tuning a loop is half science, half art, and occasionally, pure chaos. When explaining what I do to non-engineers (or even when keeping my own designs grounded), I like to step away from the Laplace transforms and look at the actual personalities inside a controller. Let's look at a classic problem every automation engineer faces: <strong>Integral Windup</strong>.</p>
+            
+            <h3>🚗 The Set Up</h3>
+            <p>Imagine you are driving a toy car up a hill, but you are wearing a blindfold. You can't see the road. Instead, you have a helper sitting in the passenger seat named <strong>Ian</strong> (our <strong>I</strong>ntegral term).</p>
+            <p>Ian’s entire job is to watch the speedometer and tell you how hard to press the gas pedal. On a normal road, if the car slows down a tiny bit, Ian looks at his watch, calculates the error over time, and says, <em>"Hey, add a little more gas, please."</em> You push the pedal slightly, the car recovers, and everyone is happy.</p>
+
+            <h3>🧱 The Brick Wall</h3>
+            <p>Suddenly, the toy car hits a massive pile of couch pillows left on the floor. The car comes to a dead stop. Ian doesn't know there are pillows in the way; he just sees that the speed is zero. So, he does his job. He starts yelling:</p>
+            <blockquote>"We are stopped! More gas! Push harder! PUSH HARDER!"</blockquote>
+            <p>You immediately push the gas pedal all the way to the floor. It literally cannot go any further. Your actuator is completely saturated.</p>
+
+            <h3>📋 The Clipboard Explodes</h3>
+            <p>This is where Ian loses his mind. Even though you are giving it 100% effort, the car isn't moving. Ian sits there with his clipboard, furiously adding up the error second after second:</p>
+            <ul>
+                <li>Second 1: <strong>"+10 gas!"</strong></li>
+                <li>Second 5: <strong>"+500 gas!"</strong></li>
+                <li>Second 10: <strong>"+5,000 gas!"</strong></li>
+            </ul>
+            <p>He winds himself up into a total calculation frenzy, stacking up a massive historical score on his clipboard.</p>
+
+            <h3>💥 The Disaster</h3>
+            <p>Suddenly, someone lifts the pillows away. The road is wide open. You want to go a safe, normal speed now. But Ian is still screaming from his clipboard frenzy: <strong>"+5,000 GAS!!! KEEP IT FLOORED!!!"</strong></p>
+            <p>Because Ian is so heavily wound up, it takes him a long time to erase his massive clipboard score. By the time he realizes the car is moving again, you have rocketed forward at Mach 3, flown off the carpet, and crashed violently into the drywall.</p>
+            <p>In engineering terms, your system just experienced a massive, unstable <strong>overshoot</strong>. That is Integral Windup.</p>
+
+            <h3>🛡️ The Fix: "The Clamping Rule"</h3>
+            <p>To keep Ian from destroying our vehicle, we have to give him a safety feature called an <strong>Anti-Windup Guard</strong>.</p>
+            <p>We program a simple rule into his brain: <em>"Ian, if you see that my foot is already pushed 100% to the floor, stop adding numbers to your clipboard. Just take a deep breath, freeze your score, and wait until we clear the obstacle."</em></p>
+        </article>
+    </main>
+
+</body>
+</html>
